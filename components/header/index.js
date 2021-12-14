@@ -6,15 +6,20 @@ import {
   HomeIcon,
   UserGroupIcon,
   MenuIcon,
+  OfficeBuildingIcon,
+  PlayIcon,
+  PuzzleIcon,
 } from "@heroicons/react/solid";
-import logo from "../../public/fakebook.jpg";
-import { useSession, signOut } from "next-auth/client";
+import logo from "../../public/facebook-logo.png";
+import { useSession, signOut, signIn } from "next-auth/client";
+import { useSelector } from "react-redux";
 
 const Header = ({ showingMenu }) => {
-  const [session, loading] = useSession();
+  // const [session, loading] = useSession();
+  const user = useSelector((state) => state.user);
 
   return (
-    <div className="flex p-2 bg-white shadow-md items-center justify-between">
+    <div className="sticky top-0 z-40 flex p-2 bg-white shadow-md items-center justify-between">
       {/* left */}
       <div className="flex">
         <Link href="/">
@@ -38,30 +43,54 @@ const Header = ({ showingMenu }) => {
       </div>
 
       {/* middle */}
-      <div className="hidden sm:block">
-        <div className="flex flex-grow justify-center space-x-2 md:space-x-6 lg:space-x-48">
-          <div className="flex p-1 text-gray-500 sm:text-xl justify-center items-center cursor-pointer hover:bg-gray-100 rounded-md">
+      <div className="hidden mr-28 sm:block">
+        <div className="flex flex-grow justify-center md:space-x-6 lg:space-x-16">
+          <div className="flex p-1 text-gray-600 sm:text-xl justify-center items-center cursor-pointer hover:bg-gray-100 rounded-md">
             <Link href="/">
               <a>
-                <HomeIcon className="w-5 h-5 sm:w-8" />
+                <HomeIcon className="w-8 h-8 sm:w-8" />
               </a>
             </Link>
-            Home
           </div>
-          <div className="flex p-1 text-gray-500 sm:text-xl justify-center items-center cursor-pointer hover:bg-gray-100 rounded-md">
+          <div className="flex p-1 text-gray-600 sm:text-xl justify-center items-center cursor-pointer hover:bg-gray-100 rounded-md">
             <Link href="/">
               <a>
-                <UserGroupIcon className="w-5 h-5 sm:w-8" />
+                <PlayIcon className="w-8 h-8 sm:w-8" />
               </a>
             </Link>
-            Friends
+          </div>
+          <div className="flex p-1 text-gray-600 sm:text-xl justify-center items-center cursor-pointer hover:bg-gray-100 rounded-md">
+            <Link href="/">
+              <a>
+                <OfficeBuildingIcon className="w-8 h-8 sm:w-8" />
+              </a>
+            </Link>
+          </div>
+          <div className="flex p-1 text-gray-600 sm:text-xl justify-center items-center cursor-pointer hover:bg-gray-100 rounded-md">
+            <Link href="/">
+              <a>
+                <UserGroupIcon className="w-8 h-8 sm:w-8" />
+              </a>
+            </Link>
+          </div>
+          <div className="flex p-1 text-gray-600 sm:text-xl justify-center items-center cursor-pointer hover:bg-gray-100 rounded-md">
+            <Link href="/">
+              <a>
+                <PuzzleIcon className="w-8 h-8 sm:w-8" />
+              </a>
+            </Link>
           </div>
         </div>
       </div>
 
       {/* right */}
-      {!session.user ? (
-        "Please Login"
+      {!user.name ? (
+        <button
+          onClick={signIn}
+          className="hidden sm:block font-bold text-xl mx-1"
+        >
+          Login
+        </button>
       ) : (
         <div
           onClick={signOut}
@@ -69,14 +98,14 @@ const Header = ({ showingMenu }) => {
         >
           {/* profile picture */}
           <Image
-            src={session.user.image}
+            src={user.image}
             className="rounded-full"
             width="40"
             height="40"
           />
 
           <button className="hidden sm:block font-bold text-xl mx-1">
-            {session.user.name}
+            {user.name}
           </button>
         </div>
       )}

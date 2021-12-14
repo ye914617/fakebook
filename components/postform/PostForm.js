@@ -1,39 +1,71 @@
 import React, { useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import Image from "next/image";
+import { db, storage } from "../../firebase";
+import { ref, uploadString, getDownloadURL } from "firebase/storage";
+import {
+  addDoc,
+  collection,
+  serverTimestamp,
+  setDoc,
+  doc,
+} from "@firebase/firestore";
 import { PhotographIcon, EmojiHappyIcon, XIcon } from "@heroicons/react/solid";
 
 const PostForm = ({ closePostPage }) => {
   const userData = useSelector((state) => state.user);
   const showPost = useSelector((state) => state.showPost);
   const { name, image } = userData;
+  const [message, setMessage] = useState("");
   const [postPhoto, setPostPhoto] = useState(null);
   const uploadphotoRef = useRef(null);
-  const postRef = useRef(null);
+  const posts = collection(db, "posts");
 
-  const onPhotoChange = (event) => {
-    if (event.target.files && event.target.files[0]) {
-      setPostPhoto(URL.createObjectURL(event.target.files[0]));
+  const addImageToPost = (e) => {
+    const reader = new FileReader();
+    if (e.target.files[0]) {
+      reader.readAsDataURL(e.target.files[0]);
     }
+    reader.onload = (readerEvent) => {
+      setPostPhoto(readerEvent.target.result);
+    };
   };
-
   const delPostPhoto = () => {
     setPostPhoto(null);
   };
 
-  //   const sendPost = (e) => {
-  //     e.preventDefault;
-  //     if (!postRef) return;
-
-  //     db.collection("posts").add({
-  //       message: postRef.current.value,
-  //     });
-  //   };
+  const handleUploadPost = (e) => {
+    e.preventDefault();
+    ////Adding data to a new collection,
+    ////document name will auto generated a unique id
+    ////if the collection name already exist,then just simply add new data to the collection.
+    ////Becareful that even the data content is same, it will store as another new data
+    if (!message) return;
+    addDoc(posts, {
+      message: message,
+      name: name,
+      image: image,
+      timeStamp: serverTimestamp(),
+    }).then((dcc) => {
+      if (postPhoto) {
+        const storageRef = ref(storage, `${dcc.id}`);
+        uploadString(storageRef, postPhoto, "data_url").then((item) => {
+          getDownloadURL(storageRef).then((url) => {
+            const imgPostDoc = doc(db, `posts/${dcc.id}`);
+            setDoc(imgPostDoc, { postUrl: url }, { merge: true });
+          });
+        });
+      }
+    });
+    setMessage("");
+    delPostPhoto();
+    closePostPage();
+  };
 
   return (
     <>
       {showPost && (
-        <div className="absolute top-0 z-20">
+        <div className="fixed top-0 z-50">
           <div className="flex justify-center items-center w-screen h-screen bg-gray-100/90">
             <div className="relative w-screen-90 xl:w-6/12 rounded-lg bg-white flex flex-col justify-center items-center">
               <p className="p-2 w-11/12 text-center border-b-2 font-bold text-lg">
@@ -52,9 +84,10 @@ const PostForm = ({ closePostPage }) => {
               </div>
               <div className="w-11/12">
                 <textarea
-                  ref={postRef}
                   className="w-full h-screen/6 outline-none p-2"
                   placeholder={`What's on your mind, ${name}?`}
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
                 />
               </div>
               {postPhoto && (
@@ -82,12 +115,15 @@ const PostForm = ({ closePostPage }) => {
                 <input
                   ref={uploadphotoRef}
                   type="file"
-                  onChange={onPhotoChange}
+                  onChange={addImageToPost}
                   className="hidden"
                 />
                 <EmojiHappyIcon className="w-8 h-8 text-yellow-300 hover:text-yellow-600 cursor-pointer" />
               </div>
-              <button className="w-11/12 rounded-md bg-blue-500 text-white p-2 my-4 hover:bg-blue-700">
+              <button
+                onClick={handleUploadPost}
+                className="w-11/12 rounded-md bg-blue-500 text-white p-2 my-4 hover:bg-blue-700"
+              >
                 Post
               </button>
               <XIcon

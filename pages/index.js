@@ -1,6 +1,9 @@
 import { wrapper } from "../store/store";
+import Head from "next/head";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { onSnapshot, collection, query, orderBy } from "@firebase/firestore";
+import { db } from "../firebase";
 import Header from "../components/header";
 import Login from "../components/login/Login";
 import { getSession } from "next-auth/client";
@@ -9,59 +12,51 @@ import Sidebar from "../components/sidebar/Sidebar";
 import Feed from "../components/Feed/Feed";
 import PostForm from "../components/postform/PostForm";
 import { friends } from "../components/friends/friend";
-import {
-  getFirestore,
-  doc,
-  setDoc,
-  updateDoc,
-  addDoc,
-  collection,
-} from "firebase/firestore";
-import { initializeApp } from "firebase/app";
-import { async } from "@firebase/util";
+import Widgets from "../components/widgets/Widgets";
+import PostOptionBox from "../components/postOptionBox/PostOptionBox";
+import EditPostForm from "../components/editPostForm/EditPostForm";
+import DeletePostAlert from "../components/deletePostAlert/DeletePostAlert";
+import NotLoginInputBox from "../components/notLoginInputBox/NotLoginInputBox";
+import NotLoginMenu from "../components/notLoginMenu/NotLoginMenu";
 
 export default function Home({ session }) {
-  ////
+  const dispatch = useDispatch();
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyBWFbfe00Ol5UZA10AbDFgQgotpuiOeDGI",
-    authDomain: "fakebook-d18f3.firebaseapp.com",
-    projectId: "fakebook-d18f3",
-    storageBucket: "fakebook-d18f3.appspot.com",
-    messagingSenderId: "805582766958",
-    appId: "1:805582766958:web:b364a0a691f33bceb8f77f",
+  const showingMenu = () => {
+    dispatch({ type: "SHOW_MENU" });
   };
-  const app = initializeApp(firebaseConfig);
-  const firestore = getFirestore();
+  const closingMenu = () => {
+    dispatch({ type: "CLOSE_MENU" });
+  };
 
-  ////Update document, can be use on edit comment
-  const specialday = doc(firestore, "sohaispec/2021-11-24");
-
-  function writeDoc() {
-    const docData = {
-      name: "sdfg",
-      price: 34,
-      player: "njkkmore",
-    };
-    setDoc(specialday, docData);
-  }
-  ////Adding data to a new collection,
-  ////document name will auto generated, a unique id
-  ////if the collection name already exist,then just simply add new data to the collection.
-  ////Becareful that even the data content is same, it will store as another new data
-  const newCollection = collection(firestore, "newtwo");
-
-  async function addNewDocument() {
-    const newDoc = await addDoc(newCollection, {
-      player: "ddddd",
-      hobby: "sleep",
-    });
-  }
-  /////
-  if (!session) return <Login />;
+  if (!session)
+    return (
+      <div className="bg-gray-100">
+        <>
+          <Head>
+            <title>Fakebook</title>
+          </Head>
+          <Menu closingMenu={closingMenu} showingMenu={showingMenu} />
+          <Header showingMenu={showingMenu} />
+          <div className="flex justify-between">
+            <Sidebar />
+            <Feed />
+          </div>
+        </>
+      </div>
+    );
+  // if (!session) return <Login />;
   const { user } = session;
 
-  const dispatch = useDispatch();
+  //Monitoring db
+  // const postsRef = collection(db, "posts");
+  // const postsQuery = query(postsRef, orderBy("timeStamp", "desc"));
+  // onSnapshot(postsQuery, (snapshot) => {
+  //   const newSnapshot = snapshot.docs.map((item) => item.data());
+  //   console.log(newSnapshot);
+  // });
+  //Monitoring db
+
   const showMenu = useSelector((state) => state.showMenu);
 
   const getUserData = (userData) => {
@@ -73,12 +68,7 @@ export default function Home({ session }) {
   const notLoggedIn = () => {
     dispatch({ type: "NOT_LOGGED_IN" });
   };
-  const showingMenu = () => {
-    dispatch({ type: "SHOW_MENU" });
-  };
-  const closingMenu = () => {
-    dispatch({ type: "CLOSE_MENU" });
-  };
+
   const getFriendsData = (friendsData) => {
     dispatch({ type: "GET_FRIENDS_DATA", payload: friendsData });
   };
@@ -93,26 +83,28 @@ export default function Home({ session }) {
     //Get user data when page first load
     getUserData(user);
     getFriendsData(friends);
-    writeDoc();
-    addNewDocument();
   }, []);
 
   return (
     <div className="bg-gray-100">
-      {showMenu ? (
-        <Menu closingMenu={closingMenu} />
-      ) : (
-        <>
-          {/* <Header showingMenu={showingMenu} />
-          <Sidebar /> */}
+      <>
+        <Head>
+          <title>Fakebook</title>
+        </Head>
+        <Menu closingMenu={closingMenu} showingMenu={showingMenu} />
+        <Header showingMenu={showingMenu} />
+        <div className="flex justify-between">
+          <Sidebar />
           <Feed />
           <PostForm closePostPage={closePostPage} />
-        </>
-      )}
+          <Widgets />
+        </div>
+      </>
     </div>
   );
 }
 
+//Without redux
 // export async function getServerSideProps(context) {
 //   const session = await getSession(context);
 //   return {
@@ -120,6 +112,7 @@ export default function Home({ session }) {
 //   };
 // }
 
+//With redux
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) => async (context) => {
     const session = await getSession(context);

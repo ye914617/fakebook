@@ -13,7 +13,7 @@ const Sidebar = () => {
   const userImage = useSelector((state) => state.user.image);
   const userName = useSelector((state) => state.user.name);
   return (
-    <div className="w-1/5 bg-blue-300 h-screen">
+    <div className="fixed left-0 hidden sm:block sm:w-1/5 sm:h-screen">
       {userImage && <SidebarRow src={userImage} title={userName} />}
       <SidebarRow Icon={PlayIcon} title="Watch" />
       <SidebarRow Icon={LibraryIcon} title="Market" />

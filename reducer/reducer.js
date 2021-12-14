@@ -5,7 +5,7 @@ const initialState = {
   loggedIn: true,
   showMenu: false,
   friends: [],
-  showPost: true,
+  showPost: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -34,6 +34,7 @@ const reducer = (state = initialState, action) => {
         ...state,
         showPost: false,
       };
+
     default:
       return state;
   }

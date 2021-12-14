@@ -3,15 +3,19 @@ import { useSelector } from "react-redux";
 import Image from "next/image";
 import StoryBar from "../storybar/StoryBar";
 import InputBox from "../inputbox/InputBox";
+import Posts from "../posts/Posts";
+import NotLoginInputBox from "../notLoginInputBox/NotLoginInputBox";
 
 const Feed = () => {
+  const user = useSelector((state) => state.user);
   return (
-    <div>
+    <div className="w-full">
       {/* Stories */}
       <StoryBar />
       {/* InputBox */}
-      <InputBox />
+      {user.name ? <InputBox /> : <NotLoginInputBox />}
       {/* Posts */}
+      <Posts />
     </div>
   );
 };

@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const SidebarRow = ({ src, title, Icon }) => {
   return (
-    <div className="cursor-pointer hover:bg-gray-300">
+    <div className="cursor-pointer hover:bg-gray-200">
       {src && (
         <div className="flex items-center p-3">
           <Image src={src} width="30" height="30" className="rounded-full" />
