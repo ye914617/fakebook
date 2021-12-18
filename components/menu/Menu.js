@@ -52,7 +52,7 @@ const Menu = ({ closingMenu }) => {
             {/* Links */}
             <div>
               <div className="flex p-4 items-center space-x-6">
-                <Link href="/">
+                <Link href="/#_=_">
                   <a>
                     <HomeIcon className="w-8 h-8 text-gray-600" />
                   </a>
@@ -60,7 +60,7 @@ const Menu = ({ closingMenu }) => {
                 <p className="text-lg">Home</p>
               </div>
               <div className="flex p-4 items-center space-x-6">
-                <Link href="/">
+                <Link href="/#_=_">
                   <a>
                     <UserGroupIcon className="w-8 h-8 text-gray-600" />
                   </a>
