@@ -8,7 +8,7 @@ const Login = ({ closeLoginPage, showLoginPage }) => {
   return (
     <>
       {showLoginPage && (
-        <div className="flex flex-col justify-center items-center h-screen">
+        <div className="flex flex-col justify-center items-center h-screen w-screen fixed bg-gray-100 z-50">
           <div className="w-4/6 h-screen/3 relative mb-10 sm:w-2/6 lg:w-1/5">
             <Image src={signinlogo} layout="fill" />
           </div>
