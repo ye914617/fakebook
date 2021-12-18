@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import React from "react";
 import { db } from "../../firebase";
 import { doc, deleteDoc } from "@firebase/firestore";
 import { XIcon } from "@heroicons/react/solid";

@@ -11,11 +11,10 @@ import {
   PuzzleIcon,
 } from "@heroicons/react/solid";
 import logo from "../../public/facebook-logo.png";
-import { useSession, signOut, signIn } from "next-auth/client";
+import { signOut, signIn } from "next-auth/client";
 import { useSelector } from "react-redux";
 
 const Header = ({ showingMenu }) => {
-  // const [session, loading] = useSession();
   const user = useSelector((state) => state.user);
 
   return (

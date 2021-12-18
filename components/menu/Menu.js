@@ -1,14 +1,12 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import Login from "../login/Login";
 import { useSelector } from "react-redux";
 import { signOut } from "next-auth/client";
 import { ArrowLeftIcon, HomeIcon, UserGroupIcon } from "@heroicons/react/solid";
 import NotLoginMenu from "../notLoginMenu/NotLoginMenu";
 
 const Menu = ({ closingMenu }) => {
-  // const [session] = useSession();
   const userData = useSelector((state) => state.user);
   const { name, image } = userData;
   const showMenu = useSelector((state) => state.showMenu);

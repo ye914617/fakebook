@@ -1,4 +1,3 @@
-import React from "react";
 import pikachu from "./pikachu.png";
 import pikachuStory from "./pikachu-story.png";
 import crycat from "./crycat.png";

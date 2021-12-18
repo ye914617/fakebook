@@ -2,10 +2,7 @@ import { wrapper } from "../store/store";
 import Head from "next/head";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { onSnapshot, collection, query, orderBy } from "@firebase/firestore";
-import { db } from "../firebase";
 import Header from "../components/header";
-import Login from "../components/login/Login";
 import { getSession } from "next-auth/client";
 import Menu from "../components/menu/Menu";
 import Sidebar from "../components/sidebar/Sidebar";
@@ -13,11 +10,6 @@ import Feed from "../components/Feed/Feed";
 import PostForm from "../components/postform/PostForm";
 import { friends } from "../components/friends/friend";
 import Widgets from "../components/widgets/Widgets";
-import PostOptionBox from "../components/postOptionBox/PostOptionBox";
-import EditPostForm from "../components/editPostForm/EditPostForm";
-import DeletePostAlert from "../components/deletePostAlert/DeletePostAlert";
-import NotLoginInputBox from "../components/notLoginInputBox/NotLoginInputBox";
-import NotLoginMenu from "../components/notLoginMenu/NotLoginMenu";
 
 export default function Home({ session }) {
   const dispatch = useDispatch();
@@ -30,11 +22,16 @@ export default function Home({ session }) {
   };
 
   if (!session)
+    //if user is not login
     return (
       <div className="bg-gray-100">
         <>
           <Head>
             <title>Fakebook</title>
+            <meta
+              name="description"
+              content="A side project created by ye914617"
+            />
           </Head>
           <Menu closingMenu={closingMenu} showingMenu={showingMenu} />
           <Header showingMenu={showingMenu} />
@@ -45,7 +42,6 @@ export default function Home({ session }) {
         </>
       </div>
     );
-  // if (!session) return <Login />;
   const { user } = session;
 
   //Monitoring db
@@ -57,23 +53,11 @@ export default function Home({ session }) {
   // });
   //Monitoring db
 
-  const showMenu = useSelector((state) => state.showMenu);
-
   const getUserData = (userData) => {
     dispatch({ type: "GET_USER_DATA", payload: userData });
   };
-  const isLoggedIn = () => {
-    dispatch({ type: "LOGGED_IN" });
-  };
-  const notLoggedIn = () => {
-    dispatch({ type: "NOT_LOGGED_IN" });
-  };
-
   const getFriendsData = (friendsData) => {
     dispatch({ type: "GET_FRIENDS_DATA", payload: friendsData });
-  };
-  const showPostPage = () => {
-    dispatch({ type: "SHOW_POST_PAGE" });
   };
   const closePostPage = () => {
     dispatch({ type: "CLOSE_POST_PAGE" });
@@ -90,6 +74,10 @@ export default function Home({ session }) {
       <>
         <Head>
           <title>Fakebook</title>
+          <meta
+            name="description"
+            content="A side project created by ye914617"
+          />
         </Head>
         <Menu closingMenu={closingMenu} showingMenu={showingMenu} />
         <Header showingMenu={showingMenu} />
