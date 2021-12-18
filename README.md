@@ -1,6 +1,6 @@
 # Fakebook
 
-A Facebook clone side project build with Next.js + Tailwind CSS + Firebase + NextAuth.js
+A Facebook clone side project built with Next.js + Tailwind CSS + Redux + Firebase + NextAuth.js
 ![GITHUB](./forReadme/overview.PNG)
 
 ## Description
