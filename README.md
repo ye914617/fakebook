@@ -1,29 +1,53 @@
-# Next.js + Tailwind CSS Example
+# Fakebook
 
-This example shows how to use [Tailwind CSS](https://tailwindcss.com/) [(v2.2)](https://blog.tailwindcss.com/tailwindcss-2-2) with Next.js. It follows the steps outlined in the official [Tailwind docs](https://tailwindcss.com/docs/guides/nextjs).
+A Facebook clone side project build with Next.js + Tailwind CSS + Firebase + NextAuth.js
+![GITHUB](./forReadme/overview.PNG)
 
-It uses the new [`Just-in-Time Mode`](https://tailwindcss.com/docs/just-in-time-mode) for Tailwind CSS.
+## Description
 
-## Preview
+Fakebook will first check if the user is login or not inside the Next.js getServersideProps feature by using NextAuth.js getSession function. If you are not signed in, you will see the 'please login to continue' message. At this moment, you are unable to add, edit and delete post.
+![GITHUB](./forReadme/notloginoverview.PNG)
 
-Preview the example live on [StackBlitz](http://stackblitz.com/):
+Click the Login button on the top left corner of home page to login. Session will return as props on the home page, then update the redux's user state through useEffect hook, so Next.js will know what to show depend on the existence of session.
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/vercel/next.js/tree/canary/examples/with-tailwindcss)
+## RWD in phone mode
 
-## Deploy your own
+Not only for website, Fakebook is also available on mobile mode with the RWD. The following login process description will proceed in phone mode
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example):
+> ![GITHUB](./forReadme/phonemode.PNG)
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-tailwindcss&project-name=with-tailwindcss&repository-name=with-tailwindcss)
+Click on the hamburger icon and menu will show up:
 
-## How to use
+> > ![GITHUB](./forReadme/signoutmenu.PNG)
 
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init) or [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) to bootstrap the example:
+If you haven't signed in, the menu will show up as:
 
-```bash
-npx create-next-app --example with-tailwindcss with-tailwindcss-app
-# or
-yarn create next-app --example with-tailwindcss with-tailwindcss-app
-```
+> > ![GITHUB](./forReadme/signinmenu.PNG)
 
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+Click the sign in button, login page then come into play
+
+> > > ![GITHUB](./forReadme/loginpage.PNG)
+
+Finally we have reached the NextAuth.js default login page, sign in with your facebook account, then you can start posting on Fakebook
+
+> > > > ![GITHUB](./forReadme/nextauthsigninpage.PNG)
+
+You can post some words with or without picture
+![GITHUB](./forReadme/posting.PNG)
+
+Then you can see the latest post appears immediately due to realtime firestore function
+![GITHUB](./forReadme/latestpost.PNG)
+
+Changed your mind? Neither edit or delete it, all on you!
+Click on the three dots icon, an option box will pop up
+![GITHUB](./forReadme/postoptionform.PNG)
+
+Editing post
+![GITHUB](./forReadme/editpost.PNG)
+
+Deleting post
+![GITHUB](./forReadme/deletepost.PNG)
+
+That's it! I hope you like my side project!
+
+## Thank you for your time

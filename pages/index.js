@@ -1,7 +1,7 @@
 import { wrapper } from "../store/store";
 import Head from "next/head";
 import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import Header from "../components/header";
 import { getSession } from "next-auth/client";
 import Menu from "../components/menu/Menu";
