@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import Image from "next/image";
 import {
   ThumbUpIcon,
@@ -11,6 +12,8 @@ import EditPostForm from "../editPostForm/EditPostForm";
 import DeletePostAlert from "../deletePostAlert/DeletePostAlert";
 
 const Post = ({ name, message, timeStamp, postUrl, image, id }) => {
+  const user = useSelector((state) => state.user);
+
   //To manage single post option box
   const [showPostOptionBox, setShowPostOptionBox] = useState(false);
 
@@ -78,19 +81,25 @@ const Post = ({ name, message, timeStamp, postUrl, image, id }) => {
                 </p>
               </div>
             </div>
-            <div
-              onClick={togglePostOptionBox}
-              className="p-2 cursor-pointer hover:bg-gray-100 rounded-full relative"
-            >
-              <DotsHorizontalIcon className="w-5 h-5" />
-              {showPostOptionBox && (
-                <div className="absolute right-0 z-10">
-                  <PostOptionBox
-                    openEditPostForm={openEditPostForm}
-                    openDeleteAlert={openDeleteAlert}
-                  />
-                </div>
-              )}
+            <div className={user.name ? "" : "cursor-not-allowed"}>
+              <div
+                onClick={togglePostOptionBox}
+                className={
+                  user.name
+                    ? "p-2 cursor-pointer hover:bg-gray-100 rounded-full relative"
+                    : "p-2 pointer-events-none hover:bg-gray-100 rounded-full relative"
+                }
+              >
+                <DotsHorizontalIcon className="w-5 h-5" />
+                {showPostOptionBox && (
+                  <div className="absolute right-0 z-10">
+                    <PostOptionBox
+                      openEditPostForm={openEditPostForm}
+                      openDeleteAlert={openDeleteAlert}
+                    />
+                  </div>
+                )}
+              </div>
             </div>
           </div>
 
