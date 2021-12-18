@@ -22,7 +22,7 @@ const Header = ({ showingMenu }) => {
     <div className="sticky top-0 z-40 flex p-2 bg-white shadow-md items-center justify-between">
       {/* left */}
       <div className="flex">
-        <Link href="/">
+        <Link href="/#_=_">
           <a>
             <Image
               src={logo}
@@ -41,40 +41,39 @@ const Header = ({ showingMenu }) => {
           />
         </div>
       </div>
-
       {/* middle */}
       <div className="hidden mr-28 sm:block">
         <div className="flex flex-grow justify-center md:space-x-6 lg:space-x-16">
           <div className="flex p-1 text-gray-600 sm:text-xl justify-center items-center cursor-pointer hover:bg-gray-100 rounded-md">
-            <Link href="/">
+            <Link href="/#_=_">
               <a>
                 <HomeIcon className="w-8 h-8 sm:w-8" />
               </a>
             </Link>
           </div>
           <div className="flex p-1 text-gray-600 sm:text-xl justify-center items-center cursor-pointer hover:bg-gray-100 rounded-md">
-            <Link href="/">
+            <Link href="/about">
               <a>
                 <PlayIcon className="w-8 h-8 sm:w-8" />
               </a>
             </Link>
           </div>
           <div className="flex p-1 text-gray-600 sm:text-xl justify-center items-center cursor-pointer hover:bg-gray-100 rounded-md">
-            <Link href="/">
+            <Link href="/about">
               <a>
                 <OfficeBuildingIcon className="w-8 h-8 sm:w-8" />
               </a>
             </Link>
           </div>
           <div className="flex p-1 text-gray-600 sm:text-xl justify-center items-center cursor-pointer hover:bg-gray-100 rounded-md">
-            <Link href="/">
+            <Link href="/about">
               <a>
                 <UserGroupIcon className="w-8 h-8 sm:w-8" />
               </a>
             </Link>
           </div>
           <div className="flex p-1 text-gray-600 sm:text-xl justify-center items-center cursor-pointer hover:bg-gray-100 rounded-md">
-            <Link href="/">
+            <Link href="/about">
               <a>
                 <PuzzleIcon className="w-8 h-8 sm:w-8" />
               </a>
@@ -82,7 +81,6 @@ const Header = ({ showingMenu }) => {
           </div>
         </div>
       </div>
-
       {/* right */}
       {!user.name ? (
         <button
@@ -109,7 +107,6 @@ const Header = ({ showingMenu }) => {
           </button>
         </div>
       )}
-
       <button
         onClick={showingMenu}
         className="flex sm:hidden justify-center items-center"
